@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var tipLabel: UILabel!
-    @IBOutlet weak var billField: UITextField!
+    @IBOutlet var billField: UITextField!
     @IBOutlet weak var totalLabel: UILabel!
     
     override func viewDidLoad() {
@@ -25,7 +25,19 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    
+    @IBAction func onEditingChanged(sender: AnyObject) {
+        let billAmount = NSString(string: billField.text!).doubleValue
+        //let billAmount = billField.text!._bridgeToObjectiveC().doubleValue
+        
+        let tip = billAmount * 0.2
+        let total = billAmount + tip
+        print("Works")
+        
+        tipLabel.text = String(format:"%.2f", tip)
+        totalLabel.text = String(format:"%.2f", total)
+    }
 
 }
 
