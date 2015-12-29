@@ -14,6 +14,8 @@ class ViewController: UIViewController {
     @IBOutlet var billField: UITextField!
     @IBOutlet weak var totalLabel: UILabel!
     
+    @IBOutlet weak var tipControl: UISegmentedControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -28,15 +30,20 @@ class ViewController: UIViewController {
     
     
     @IBAction func onEditingChanged(sender: AnyObject) {
-        let billAmount = NSString(string: billField.text!).doubleValue
-        //let billAmount = billField.text!._bridgeToObjectiveC().doubleValue
+        var tipPercentages = [0.18, 0.2, 0.22]
+        let tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
         
-        let tip = billAmount * 0.2
+        let billAmount = NSString(string: billField.text!).doubleValue
+        
+        let tip = billAmount * tipPercentage
         let total = billAmount + tip
-        print("Works")
         
         tipLabel.text = String(format:"%.2f", tip)
         totalLabel.text = String(format:"%.2f", total)
+    }
+    @IBAction func onTap(sender: AnyObject) {
+        // dismiss the keyboard
+        view.endEditing(true)
     }
 
 }
