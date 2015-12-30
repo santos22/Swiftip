@@ -40,7 +40,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     
     @IBAction func onEditingChanged(sender: AnyObject) {
-        var tipPercentages = [0.18, 0.2, 0.22]
+        var tipPercentages = [0.18, 0.20, 0.22]
         let tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
         
         let billAmount = NSString(string: billField.text!).doubleValue
@@ -50,6 +50,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         tipLabel.text = String(format:"%.2f", tip)
         totalLabel.text = String(format:"%.2f", total)
+        
+        let date = NSDate()
+        let calendar = NSCalendar.currentCalendar()
+        let components = calendar.components([.Day , .Month , .Year], fromDate: date)
+        
+        let year =  components.year
+        let month = components.month
+        let day = components.day
+        
+        // cast Int to String
+        print(String(month) + "/" + String(day) + "/" + String(year))
         
         let defaults = NSUserDefaults.standardUserDefaults()
         if let name = defaults.stringForKey("userNameKey")
