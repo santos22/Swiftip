@@ -8,17 +8,25 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tipLabel: UILabel!
     @IBOutlet var billField: UITextField!
     @IBOutlet weak var totalLabel: UILabel!
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    var arrayOfStrings: [String] = ["Frugality is good", "Dinner for 2?", "Broken ❤"]
     
     @IBOutlet weak var tipControl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        
         self.title = "Swiftip"
         self.view.backgroundColor = UIColor.lightGrayColor()
         tipLabel.text = "$0.00"
@@ -42,6 +50,12 @@ class ViewController: UIViewController {
         
         tipLabel.text = String(format:"%.2f", tip)
         totalLabel.text = String(format:"%.2f", total)
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if let name = defaults.stringForKey("userNameKey")
+        {
+            print(name)
+        }
     }
     @IBAction func onTap(sender: AnyObject) {
         // dismiss the keyboard
@@ -69,7 +83,35 @@ class ViewController: UIViewController {
         super.viewDidDisappear(animated)
         print("view did disappear")
     }
-
+    
+    let textCellIdentifier = "TextCell"
+    
+    let swiftBlogs = ["Frugality is key", "Dinner for 2?", "Treat yoself!", "Prom only comes once", "Did you lose a bet?", "Oh, you fancy huh.", "Shrimps, steak...", "...", "Slow your roll..", "...check your bank account"]
+    
+    // MARK:  UITextFieldDelegate Methods
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return swiftBlogs.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(textCellIdentifier, forIndexPath: indexPath) as UITableViewCell
+        
+        let row = indexPath.row
+        cell.textLabel?.text = swiftBlogs[row]
+        
+        return cell
+    }
+    
+    // MARK:  UITableViewDelegate Methods
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        let row = indexPath.row
+        print(swiftBlogs[row])
+    }
 
 }
-
