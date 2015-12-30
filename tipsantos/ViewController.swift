@@ -19,6 +19,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        self.title = "Swiftip"
         self.view.backgroundColor = UIColor.lightGrayColor()
         tipLabel.text = "$0.00"
         totalLabel.text = "$0.00"
@@ -46,6 +47,29 @@ class ViewController: UIViewController {
         // dismiss the keyboard
         view.endEditing(true)
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        print("view will appear")
+        // This is a good place to retrieve the default tip percentage from NSUserDefaults
+        // and use it to update the tip amount
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        print("view did appear")
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("view will disappear")
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        print("view did disappear")
+    }
+
 
 }
 
