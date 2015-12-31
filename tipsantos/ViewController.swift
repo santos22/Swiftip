@@ -15,6 +15,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var totalLabel: UILabel!
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var addNewBill: UIButton!
     
     var arrayOfStrings: [String] = ["Frugality is good", "Dinner for 2?", "Broken ❤"]
     
@@ -29,8 +30,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         self.title = "Swiftip"
         self.view.backgroundColor = UIColor.lightGrayColor()
-        tipLabel.text = "$0.00"
-        totalLabel.text = "$0.00"
+        tipLabel.text = "0.00"
+        totalLabel.text = "0.00"
+        
+        addNewBill.setTitle("\u{2713}", forState: .Normal)
+        addNewBill.layer.borderWidth = 1
+        addNewBill.layer.cornerRadius = 0.5 * addNewBill.bounds.size.width
     }
 
     override func didReceiveMemoryWarning() {
@@ -68,6 +73,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             print(name)
         }
     }
+    
+    // button press
+    @IBAction func addBillToTableView(sender: AnyObject) {
+        print("Button pressed")
+        swiftBlogs.append(totalLabel.text!)
+        tableView.reloadData()
+        billField.text = ""
+    }
+    
     @IBAction func onTap(sender: AnyObject) {
         // dismiss the keyboard
         view.endEditing(true)
@@ -97,7 +111,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     let textCellIdentifier = "TextCell"
     
-    let swiftBlogs = ["Frugality is key", "Dinner for 2?", "Treat yoself!", "Prom only comes once", "Did you lose a bet?", "Oh, you fancy huh.", "Shrimps, steak...", "...", "Slow your roll..", "...check your bank account"]
+    var swiftBlogs = ["Frugality is the \u{1F511} to success."]
     
     // MARK:  UITextFieldDelegate Methods
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
