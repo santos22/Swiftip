@@ -17,9 +17,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addNewBill: UIButton!
     
-    var arrayOfStrings: [String] = ["Frugality is good", "Dinner for 2?", "Broken ❤"]
-    
     @IBOutlet weak var tipControl: UISegmentedControl!
+    
+    var arrayOfStrings: [String] = ["Frugality is good", "Dinner for 2?", "Broken ❤"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,12 +27,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         tableView.delegate = self
         tableView.dataSource = self
+        setLabelAttributes()
+        setButtonAttributes()
         
+    }
+    
+    func setLabelAttributes() {
         self.title = "Swiftip"
         self.view.backgroundColor = UIColor.lightGrayColor()
         tipLabel.text = "0.00"
         totalLabel.text = "0.00"
-        
+    }
+    
+    func setButtonAttributes() {
         addNewBill.setTitle("\u{2713}", forState: .Normal)
         addNewBill.layer.borderWidth = 1
         addNewBill.layer.cornerRadius = 0.5 * addNewBill.bounds.size.width
@@ -49,10 +56,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
         
         let billAmount = NSString(string: billField.text!).doubleValue
-        
         let tip = billAmount * tipPercentage
         let total = billAmount + tip
         
+        // format tip and total amounts to 2 decimal places
         tipLabel.text = String(format:"%.2f", tip)
         totalLabel.text = String(format:"%.2f", total)
         
@@ -66,24 +73,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         // cast Int to String
         print(String(month) + "/" + String(day) + "/" + String(year))
-        
-        let defaults = NSUserDefaults.standardUserDefaults()
-        if let name = defaults.stringForKey("userNameKey")
-        {
-            print(name)
-        }
     }
     
-    // button press
+    // when user is satisfied with bill total, button press
+    // adds new bill amount to list
     @IBAction func addBillToTableView(sender: AnyObject) {
         print("Button pressed")
-        swiftBlogs.append(totalLabel.text!)
+        totalBillHistory.append(totalLabel.text!)
         tableView.reloadData()
         billField.text = ""
     }
     
+    // dismiss the keyboard on tap above and outside
+    // the field where the user enters bill amount
     @IBAction func onTap(sender: AnyObject) {
-        // dismiss the keyboard
         view.endEditing(true)
     }
     
@@ -110,8 +113,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     let textCellIdentifier = "TextCell"
-    
-    var swiftBlogs = ["Frugality is the \u{1F511} to success."]
+    var totalBillHistory = ["Frugality is the \u{1F511} to success."]
     var deleteBillAmountIndexPath: NSIndexPath? = nil
     
     // MARK:  UITextFieldDelegate Methods
@@ -120,14 +122,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return swiftBlogs.count
+        return totalBillHistory.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(textCellIdentifier, forIndexPath: indexPath) as UITableViewCell
         
         let row = indexPath.row
-        cell.textLabel?.text = swiftBlogs[row]
+        cell.textLabel?.text = totalBillHistory[row]
         
         return cell
     }
@@ -137,13 +139,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         let row = indexPath.row
-        print(swiftBlogs[row])
+        print(totalBillHistory[row])
     }
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             deleteBillAmountIndexPath = indexPath
-            let billToDelete = swiftBlogs[indexPath.row]
+            let billToDelete = totalBillHistory[indexPath.row]
             confirmDelete(billToDelete)
         }
     }
@@ -168,7 +170,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if let indexPath = deleteBillAmountIndexPath {
             tableView.beginUpdates()
             
-            swiftBlogs.removeAtIndex(indexPath.row)
+            totalBillHistory.removeAtIndex(indexPath.row)
             
             // Note that indexPath is wrapped in an array:  [indexPath]
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
@@ -182,7 +184,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func cancelDeleteBill(alertAction: UIAlertAction!) {
         deleteBillAmountIndexPath = nil
     }
-    
     
 
 }
