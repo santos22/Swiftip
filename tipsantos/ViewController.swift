@@ -67,24 +67,27 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // format tip and total amounts to 2 decimal places
         tipLabel.text = String(format:"%.2f", tip)
         totalLabel.text = String(format:"%.2f", total)
-        
-        let date = NSDate()
-        let calendar = NSCalendar.currentCalendar()
-        let components = calendar.components([.Day , .Month , .Year], fromDate: date)
-        
-        let year =  components.year
-        let month = components.month
-        let day = components.day
-        
-        // cast Int to String
-        print(String(month) + "/" + String(day) + "/" + String(year))
     }
     
     // when user is satisfied with bill total, button press
     // adds new bill amount to list
     @IBAction func addBillToTableView(sender: AnyObject) {
-        totalBillHistory.append(totalLabel.text!)
-        tableView.reloadData()
+        let defaults = `NSUserDefaults`.standardUserDefaults()
+        
+        defaults.setObject(totalLabel.text, forKey: "totalLabel")
+        defaults.synchronize()
+        
+        print("\(totalLabel.text)")
+        
+        let billDate = getBillDate()
+        
+        // do not append the total value if a bill amount
+        // has not been entered and the add button is pressed
+        if totalLabel.text! != "$0.00" {
+            totalBillHistory.append(billDate + " | $" + totalLabel.text!)
+            tableView.reloadData()
+        }
+        
         // hide keypad
         self.view.endEditing(true)
         // reset text field and labels
@@ -97,6 +100,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // the field where the user enters bill amount
     @IBAction func onTap(sender: AnyObject) {
         view.endEditing(true)
+    }
+    
+    func getBillDate() -> String {
+        let date = NSDate()
+        let calendar = NSCalendar.currentCalendar()
+        let components = calendar.components([.Day , .Month , .Year], fromDate: date)
+        
+        let year =  components.year
+        let month = components.month
+        let day = components.day
+        
+        // cast Int to String
+        let billDate = String(month) + "/" + String(day) + "/" + String(year)
+        return billDate
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -171,7 +188,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func confirmDelete(bill: String) {
-        let alert = UIAlertController(title: "Delete Bill", message: "Are you sure you want to permanently delete \(bill)?", preferredStyle: .ActionSheet)
+        let alert = UIAlertController(title: "Delete Bill", message: "Are you sure you want to permanently delete $\(bill)?", preferredStyle: .ActionSheet)
         
         let DeleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler: handleDeleteBill)
         let CancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: cancelDeleteBill)
