@@ -8,6 +8,19 @@
 
 import UIKit
 
+// generate random number to retrieve random
+// lifestyle tip from list
+extension Array {
+    func randomItem() -> Element {
+        let index = Int(arc4random_uniform(UInt32(self.count)))
+        return self[index]
+    }
+}
+
+let lifestyleTips = ["Frugality is the \u{1F511} to success", "Always grocery shop with a list \u{1F4DD}", "Buy generic items \u{1F4AF}", "Don’t drink soda. Drink water! \u{1F4A7}", "Grow your own produce \u{1F34A}", "Bring lunch from home \u{1F3E0}"]
+
+let randomTip = lifestyleTips.randomItem()
+
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tipLabel: UILabel!
@@ -19,7 +32,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @IBOutlet weak var tipControl: UISegmentedControl!
     
-    var arrayOfStrings: [String] = ["Frugality is good", "Dinner for 2?", "Broken ❤"]
+    // need to lock orientation...
+    override func shouldAutorotate() -> Bool {
+        return false
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,17 +50,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func setLabelAttributes() {
         self.title = "Swiftip"
-        self.view.backgroundColor = UIColor.lightGrayColor()
         totalLabel.text = "$0.00"
         tipLabel.text = "$0.00"
     }
     
     func setButtonAttributes() {
-        addNewBill.setTitle("\u{2713}", forState: .Normal)
+        addNewBill.setTitle("\u{2705}", forState: .Normal)
         addNewBill.layer.cornerRadius = 0.5 * addNewBill.bounds.size.width
-        addNewBill.layer.borderColor = UIColor(red:0.0/255.0, green:122.0/255.0, blue:255.0/255.0, alpha:1).CGColor as CGColorRef
-        addNewBill.layer.borderWidth = 2.0
-        addNewBill.clipsToBounds = true
+        addNewBill.layer.borderColor = UIColor(red:79.0, green:86.0, blue:111.0, alpha:1).CGColor as CGColorRef
+//        addNewBill.layer.borderWidth = 2.0
+//        addNewBill.clipsToBounds = true
         
         //addNewBill.layer.borderWidth = 1
         //addNewBill.layer.cornerRadius = 0.5 * addNewBill.bounds.size.width
@@ -139,7 +154,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     let textCellIdentifier = "TextCell"
-    var totalBillHistory = ["Frugality is the \u{1F511} to success."]
+    var totalBillHistory = [randomTip]
+    
     var deleteBillAmountIndexPath: NSIndexPath? = nil
     
     // MARK:  UITextFieldDelegate Methods
@@ -163,7 +179,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // does not allow deletion of first element in list, which is the key to success
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         var returnValue:Bool = true
-        if(totalBillHistory[indexPath.row] == "Frugality is the \u{1F511} to success.")
+        if(indexPath.row == 0)
         {
             returnValue = false
         }
