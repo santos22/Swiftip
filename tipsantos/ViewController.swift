@@ -143,6 +143,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return cell
     }
     
+    // does not allow deletion of first element in list, which is the key to success
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        var returnValue:Bool = true
+        if(totalBillHistory[indexPath.row] == "Frugality is the \u{1F511} to success.")
+        {
+            returnValue = false
+        }
+        return returnValue
+        
+    }
+    
     // MARK:  UITableViewDelegate Methods
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
