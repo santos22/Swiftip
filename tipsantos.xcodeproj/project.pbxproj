@@ -10,6 +10,7 @@
 		0467560D1C35274B00E1BC0E /* BillHistory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0467560B1C35274B00E1BC0E /* BillHistory.xcdatamodeld */; };
 		046756101C352C3C00E1BC0E /* Bill+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0467560E1C352C3C00E1BC0E /* Bill+CoreDataProperties.swift */; };
 		046756111C352C3C00E1BC0E /* Bill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0467560F1C352C3C00E1BC0E /* Bill.swift */; };
+		046756131C3535DC00E1BC0E /* BillHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046756121C3535DC00E1BC0E /* BillHistory.swift */; };
 		047FB01C1C3128F40023E1EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047FB01B1C3128F40023E1EC /* AppDelegate.swift */; };
 		047FB01E1C3128F40023E1EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047FB01D1C3128F40023E1EC /* ViewController.swift */; };
 		047FB0211C3128F40023E1EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 047FB01F1C3128F40023E1EC /* Main.storyboard */; };
@@ -41,6 +42,7 @@
 		0467560C1C35274B00E1BC0E /* BillHistory.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BillHistory.xcdatamodel; sourceTree = "<group>"; };
 		0467560E1C352C3C00E1BC0E /* Bill+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bill+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		0467560F1C352C3C00E1BC0E /* Bill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bill.swift; sourceTree = "<group>"; };
+		046756121C3535DC00E1BC0E /* BillHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillHistory.swift; sourceTree = "<group>"; };
 		047FB0181C3128F30023E1EC /* tipsantos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tipsantos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		047FB01B1C3128F40023E1EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		047FB01D1C3128F40023E1EC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				047FB0221C3128F40023E1EC /* Assets.xcassets */,
 				047FB0241C3128F40023E1EC /* LaunchScreen.storyboard */,
 				047FB0271C3128F40023E1EC /* Info.plist */,
+				046756121C3535DC00E1BC0E /* BillHistory.swift */,
 			);
 			path = tipsantos;
 			sourceTree = "<group>";
@@ -276,6 +279,7 @@
 				0467560D1C35274B00E1BC0E /* BillHistory.xcdatamodeld in Sources */,
 				047FB01C1C3128F40023E1EC /* AppDelegate.swift in Sources */,
 				046756111C352C3C00E1BC0E /* Bill.swift in Sources */,
+				046756131C3535DC00E1BC0E /* BillHistory.swift in Sources */,
 				04A6A64A1C33B0620016764A /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
