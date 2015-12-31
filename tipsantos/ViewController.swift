@@ -5,6 +5,7 @@
 //  Created by Santos Solorzano on 12/28/15.
 //  Copyright © 2015 santosjs. All rights reserved.
 //
+// icons -> bit.ly/1mkL2oe
 
 import UIKit
 
@@ -40,6 +41,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        // keypad up and running as soon as app starts
+        billField.becomeFirstResponder()
         
         tableView.delegate = self
         tableView.dataSource = self
