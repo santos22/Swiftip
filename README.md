@@ -1,5 +1,3 @@
-# Swiftip
-Tip Calculator in Swift
 # Pre-work - *Swiftip*
 
 **Swiftip** is a tip calculator application for iOS.
