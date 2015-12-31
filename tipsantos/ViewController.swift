@@ -112,6 +112,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     let textCellIdentifier = "TextCell"
     
     var swiftBlogs = ["Frugality is the \u{1F511} to success."]
+    var deleteBillAmountIndexPath: NSIndexPath? = nil
     
     // MARK:  UITextFieldDelegate Methods
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -138,5 +139,50 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let row = indexPath.row
         print(swiftBlogs[row])
     }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            deleteBillAmountIndexPath = indexPath
+            let billToDelete = swiftBlogs[indexPath.row]
+            confirmDelete(billToDelete)
+        }
+    }
+    
+    func confirmDelete(bill: String) {
+        let alert = UIAlertController(title: "Delete Bill", message: "Are you sure you want to permanently delete \(bill)?", preferredStyle: .ActionSheet)
+        
+        let DeleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler: handleDeleteBill)
+        let CancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: cancelDeleteBill)
+        
+        alert.addAction(DeleteAction)
+        alert.addAction(CancelAction)
+        
+        // Support presentation in iPad
+        alert.popoverPresentationController?.sourceView = self.view
+        alert.popoverPresentationController?.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0)
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func handleDeleteBill(alertAction: UIAlertAction!) -> Void {
+        if let indexPath = deleteBillAmountIndexPath {
+            tableView.beginUpdates()
+            
+            swiftBlogs.removeAtIndex(indexPath.row)
+            
+            // Note that indexPath is wrapped in an array:  [indexPath]
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            
+            deleteBillAmountIndexPath = nil
+            
+            tableView.endUpdates()
+        }
+    }
+    
+    func cancelDeleteBill(alertAction: UIAlertAction!) {
+        deleteBillAmountIndexPath = nil
+    }
+    
+    
 
 }
