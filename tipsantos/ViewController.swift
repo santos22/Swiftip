@@ -35,14 +35,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func setLabelAttributes() {
         self.title = "Swiftip"
         self.view.backgroundColor = UIColor.lightGrayColor()
-        tipLabel.text = "0.00"
-        totalLabel.text = "0.00"
+        totalLabel.text = "$0.00"
+        tipLabel.text = "$0.00"
     }
     
     func setButtonAttributes() {
         addNewBill.setTitle("\u{2713}", forState: .Normal)
-        addNewBill.layer.borderWidth = 1
         addNewBill.layer.cornerRadius = 0.5 * addNewBill.bounds.size.width
+        addNewBill.layer.borderColor = UIColor(red:0.0/255.0, green:122.0/255.0, blue:255.0/255.0, alpha:1).CGColor as CGColorRef
+        addNewBill.layer.borderWidth = 2.0
+        addNewBill.clipsToBounds = true
+        
+        //addNewBill.layer.borderWidth = 1
+        //addNewBill.layer.cornerRadius = 0.5 * addNewBill.bounds.size.width
     }
 
     override func didReceiveMemoryWarning() {
@@ -78,10 +83,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // when user is satisfied with bill total, button press
     // adds new bill amount to list
     @IBAction func addBillToTableView(sender: AnyObject) {
-        print("Button pressed")
         totalBillHistory.append(totalLabel.text!)
         tableView.reloadData()
+        // hide keypad
+        self.view.endEditing(true)
+        // reset text field and labels
         billField.text = ""
+        totalLabel.text = "$0.00"
+        tipLabel.text = "$0.00"
     }
     
     // dismiss the keyboard on tap above and outside
