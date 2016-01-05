@@ -95,17 +95,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // when user is satisfied with bill total, button press
     // adds new bill amount to list
     @IBAction func addBillToTableView(sender: AnyObject) {
-//        let prefs = NSUserDefaults.standardUserDefaults()
-//        prefs.setValue("Berlin", forKey: "userCity")
-//        
-//        if let city = prefs.stringForKey("userCity"){
-//            print("The user has a city defined: " + city)
-//        }else{
-//            //Nothing stored in NSUserDefaults yet. Set a value.
-//            prefs.setValue("Berlin", forKey: "userCity")          
-//        }
-//        
-//        prefs.synchronize() //Swift
     
         //self.tableView.reloadData()
         
