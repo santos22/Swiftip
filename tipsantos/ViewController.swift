@@ -9,6 +9,8 @@
 
 import UIKit
 
+let defaults = NSUserDefaults.standardUserDefaults()
+
 // generate random number to retrieve random
 // lifestyle tip from list
 extension Array {
@@ -49,6 +51,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.dataSource = self
         setLabelAttributes()
         setButtonAttributes()
+        
+        loadUserDefaults()
         
     }
     
@@ -91,10 +95,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // when user is satisfied with bill total, button press
     // adds new bill amount to list
     @IBAction func addBillToTableView(sender: AnyObject) {
-        let defaults = `NSUserDefaults`.standardUserDefaults()
-        
-        defaults.setObject(totalLabel.text, forKey: "totalLabel")
-        defaults.synchronize()
+//        let prefs = NSUserDefaults.standardUserDefaults()
+//        prefs.setValue("Berlin", forKey: "userCity")
+//        
+//        if let city = prefs.stringForKey("userCity"){
+//            print("The user has a city defined: " + city)
+//        }else{
+//            //Nothing stored in NSUserDefaults yet. Set a value.
+//            prefs.setValue("Berlin", forKey: "userCity")          
+//        }
+//        
+//        prefs.synchronize() //Swift
+    
+        //self.tableView.reloadData()
         
         print("\(totalLabel.text)")
         
@@ -104,6 +117,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // has not been entered and the add button is pressed
         if totalLabel.text! != "$0.00" {
             totalBillHistory.append(billDate + " | $" + totalLabel.text!)
+            defaults.setValue(totalBillHistory, forKey: "billData")
+            defaults.synchronize()
             tableView.reloadData()
         }
         
@@ -158,7 +173,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     let textCellIdentifier = "TextCell"
-    var totalBillHistory = [randomTip]
+    //var totalBillHistory = [randomTip]
+    var totalBillHistory = [String](arrayLiteral: randomTip)
+    //totalBillHistory = [randomTip]
     
     var deleteBillAmountIndexPath: NSIndexPath? = nil
     
@@ -234,6 +251,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             deleteBillAmountIndexPath = nil
             
+            defaults.setValue(totalBillHistory, forKey: "billData")
+            defaults.synchronize()
             tableView.endUpdates()
         }
     }
@@ -242,5 +261,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         deleteBillAmountIndexPath = nil
     }
     
+    func loadUserDefaults() {
+        if let tempBillArray = defaults.valueForKey("billData") {
+            totalBillHistory = tempBillArray as! [String]
+        }
+    }
 
 }
