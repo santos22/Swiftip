@@ -1,5 +1,3 @@
-# Swiftip
-Tip Calculator in Swift
 # Pre-work - *Swiftip*
 
 **Swiftip** is a tip calculator application for iOS.
@@ -32,7 +30,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/1WtV1lY.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/XBU3bS1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
