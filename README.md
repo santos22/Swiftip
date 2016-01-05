@@ -21,6 +21,7 @@ The following **optional** features are implemented:
 The following **additional** features are implemented:
 
 * [x] Table view to store and display temporary bill history including dates and totals
+* [x] Bill history is displayed when app is closed and reopened :-)
 * [x] Add total to bill history and hide keypad by pressing a button
 * [x] Ability to delete bill history items by swiping to left
 * [x] Enhanced UI with a launch icon to go with the app's main colors
