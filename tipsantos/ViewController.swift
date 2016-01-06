@@ -43,7 +43,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // keypad up and running as soon as app starts
         billField.becomeFirstResponder()
         
+        // primarily to control HOW this data is displayed
         tableView.delegate = self
+        // what data to show in the UITableView
         tableView.dataSource = self
         setLabelAttributes()
         setButtonAttributes()
@@ -152,9 +154,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     let textCellIdentifier = "TextCell"
+    // data source for this UITableViewDataSource
     var totalBillHistory = [String](arrayLiteral: randomTip)
-    //totalBillHistory = [randomTip]
-    //var totalBillHistory = [randomTip]
     
     var deleteBillAmountIndexPath: NSIndexPath? = nil
     
@@ -163,6 +164,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return 1
     }
     
+    // return the count of the elements (bill totals) in our array here
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return totalBillHistory.count
     }
