@@ -9,10 +9,10 @@
 
 import UIKit
 
+// use constants to avoid unexpected changes to reference later on
 let defaults = NSUserDefaults.standardUserDefaults()
 
-// generate random number to retrieve random
-// lifestyle tip from list of tips
+// generate random number to retrieve random tip
 extension Array {
     func randomItem() -> Element {
         let index = Int(arc4random_uniform(UInt32(self.count)))
@@ -70,7 +70,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Dispose of any resources that can be recreated.
     }
     
-    
+    // dynamically updates tip and total amounts as user types
     @IBAction func onEditingChanged(sender: AnyObject) {
         var tipPercentages = [0.18, 0.20, 0.22]
         let tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
@@ -88,22 +88,21 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // press adds new bill amount to bill history and resets labels
     @IBAction func addBillToTableView(sender: AnyObject) {
     
-        //self.tableView.reloadData()
-        
         let billDate = getBillDate()
         
         // do not append the total value if a bill amount
         // reads $0.00 AND the add button is pressed
         if totalLabel.text! != "$0.00" {
             totalBillHistory.append(billDate + " | " + totalLabel.text!)
+            
+            // synchronize NSUserDefaults to save data
             defaults.setValue(totalBillHistory, forKey: "billData")
             defaults.synchronize()
             tableView.reloadData()
         }
         
-        // hide keypad after adding bill to bill history
+        // hide keypad after tapping button
         self.view.endEditing(true)
-        // reset text field and labels
         billField.text = ""
         totalLabel.text = "$0.00"
         tipLabel.text = "$0.00"
@@ -115,7 +114,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         view.endEditing(true)
     }
     
-    // function to retrieve date of entered bill amount
+    // function to retrieve date when bill amount was entered
     func getBillDate() -> String {
         let date = NSDate()
         let calendar = NSCalendar.currentCalendar()
@@ -196,20 +195,26 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         print(totalBillHistory[row])
     }
     
+    // delegate method that causes the buttons to appear on swipe (commitEditingStyle)
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             deleteBillAmountIndexPath = indexPath
+            
+            //store the indexPath of the row we’re wanting to delete
+            // in a class-viewable variable
             let billToDelete = totalBillHistory[indexPath.row]
             confirmDelete(billToDelete)
         }
     }
     
+    // function to confirm that user in fact wants to delete said item
     func confirmDelete(bill: String) {
         let alert = UIAlertController(title: "Delete Bill", message: "Are you sure you want to permanently delete $\(bill)?", preferredStyle: .ActionSheet)
         
         let DeleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler: handleDeleteBill)
         let CancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: cancelDeleteBill)
         
+        // create UIAlertAction buttons: one for Delete and one for Cancel
         alert.addAction(DeleteAction)
         alert.addAction(CancelAction)
         
@@ -220,23 +225,30 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
+    // function to handle delete UIAlertAction instance
     func handleDeleteBill(alertAction: UIAlertAction!) -> Void {
         if let indexPath = deleteBillAmountIndexPath {
+            // signals the start of UI updates to the table view.
             tableView.beginUpdates()
             
+            // remove the bill from the data source set in delegate method
             totalBillHistory.removeAtIndex(indexPath.row)
             
-            // Note that indexPath is wrapped in an array:  [indexPath]
+            // note that indexPath is wrapped in an array:  [indexPath] instances
+            // removes the bill from the UI (table view)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             
+            // reset the class-viewable deleteBillAmountIndexPath to nil
             deleteBillAmountIndexPath = nil
             
+            // synchronize NSUserDefaults to save data
             defaults.setValue(totalBillHistory, forKey: "billData")
             defaults.synchronize()
             tableView.endUpdates()
         }
     }
     
+    // function to handle cancel UIAlertAction instance
     func cancelDeleteBill(alertAction: UIAlertAction!) {
         deleteBillAmountIndexPath = nil
     }
