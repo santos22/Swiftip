@@ -12,7 +12,7 @@ import UIKit
 let defaults = NSUserDefaults.standardUserDefaults()
 
 // generate random number to retrieve random
-// lifestyle tip from list
+// lifestyle tip from list of tips
 extension Array {
     func randomItem() -> Element {
         let index = Int(arc4random_uniform(UInt32(self.count)))
@@ -20,6 +20,7 @@ extension Array {
     }
 }
 
+// array of tips provided to user on how to save money
 let lifestyleTips = ["Frugality is the \u{1F511} to success", "Always grocery shop with a list \u{1F4DD}", "Buy generic items \u{1F4AF}", "Don’t drink soda. Drink water! \u{1F4A7}", "Grow your own produce \u{1F34A}", "Bring lunch from home \u{1F3E0}"]
 
 let randomTip = lifestyleTips.randomItem()
@@ -35,11 +36,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @IBOutlet weak var tipControl: UISegmentedControl!
     
-    // need to lock orientation...
-    override func shouldAutorotate() -> Bool {
-        return false
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -51,26 +47,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.dataSource = self
         setLabelAttributes()
         setButtonAttributes()
-        
         loadUserDefaults()
         
     }
     
+    // sets title of app and labels default to $0.00
     func setLabelAttributes() {
         self.title = "Swiftip"
         totalLabel.text = "$0.00"
         tipLabel.text = "$0.00"
     }
     
+    // sets button attributes...currently an emoji
     func setButtonAttributes() {
         addNewBill.setTitle("\u{2705}", forState: .Normal)
         addNewBill.layer.cornerRadius = 0.5 * addNewBill.bounds.size.width
         addNewBill.layer.borderColor = UIColor(red:79.0, green:86.0, blue:111.0, alpha:1).CGColor as CGColorRef
-//        addNewBill.layer.borderWidth = 2.0
-//        addNewBill.clipsToBounds = true
-        
-        //addNewBill.layer.borderWidth = 1
-        //addNewBill.layer.cornerRadius = 0.5 * addNewBill.bounds.size.width
     }
 
     override func didReceiveMemoryWarning() {
@@ -88,30 +80,28 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let total = billAmount + tip
         
         // format tip and total amounts to 2 decimal places
-        tipLabel.text = String(format:"%.2f", tip)
-        totalLabel.text = String(format:"%.2f", total)
+        tipLabel.text = String(format:"$%.2f", tip)
+        totalLabel.text = String(format:"$%.2f", total)
     }
     
-    // when user is satisfied with bill total, button press
-    // adds new bill amount to list
+    // when user is satisfied with bill total, button
+    // press adds new bill amount to bill history and resets labels
     @IBAction func addBillToTableView(sender: AnyObject) {
     
         //self.tableView.reloadData()
         
-        print("\(totalLabel.text)")
-        
         let billDate = getBillDate()
         
         // do not append the total value if a bill amount
-        // has not been entered and the add button is pressed
+        // reads $0.00 AND the add button is pressed
         if totalLabel.text! != "$0.00" {
-            totalBillHistory.append(billDate + " | $" + totalLabel.text!)
+            totalBillHistory.append(billDate + " | " + totalLabel.text!)
             defaults.setValue(totalBillHistory, forKey: "billData")
             defaults.synchronize()
             tableView.reloadData()
         }
         
-        // hide keypad
+        // hide keypad after adding bill to bill history
         self.view.endEditing(true)
         // reset text field and labels
         billField.text = ""
@@ -120,11 +110,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     // dismiss the keyboard on tap above and outside
-    // the field where the user enters bill amount
+    // the text field where the user enters bill amount
     @IBAction func onTap(sender: AnyObject) {
         view.endEditing(true)
     }
     
+    // function to retrieve date of entered bill amount
     func getBillDate() -> String {
         let date = NSDate()
         let calendar = NSCalendar.currentCalendar()
@@ -162,9 +153,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     let textCellIdentifier = "TextCell"
-    //var totalBillHistory = [randomTip]
     var totalBillHistory = [String](arrayLiteral: randomTip)
     //totalBillHistory = [randomTip]
+    //var totalBillHistory = [randomTip]
     
     var deleteBillAmountIndexPath: NSIndexPath? = nil
     
